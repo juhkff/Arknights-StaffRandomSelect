@@ -9,15 +9,10 @@ namespace StaffRandomSelect.Domain
 {
     public class ListModel
     {
-        public ObservableCollection<Test> Items1 { get; }
+        public List<Staff> Items1 { get; }
         public ListModel()
         {
-            Items1 = new ObservableCollection<Test>();
-            Test test1 = new Test();
-            test1.Code = "Code1";
-            test1.Name = "Name1";
-            test1.Description = "Description1";
-            Items1.Add(test1);
+            Items1 = App.StaffLists;
         }
     }
 

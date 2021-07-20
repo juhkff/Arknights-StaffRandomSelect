@@ -17,11 +17,11 @@ namespace StaffRandomSelect
     /// </summary>
     public partial class App : Application
     {
-        public static List<Staff> staffLists;
+        public static List<Staff> StaffLists;
 
-        private string projectPath = Environment.CurrentDirectory.ToString();
-        private string fileName = "StaffList.xml";
-        private string path;
+        private static string projectPath = Environment.CurrentDirectory.ToString();
+        private static string fileName = "StaffList.xml";
+        private static string path;
 
 
         protected override void OnStartup(StartupEventArgs e)
@@ -34,36 +34,35 @@ namespace StaffRandomSelect
         private void LoadList()
         {
             path = System.IO.Path.Combine(projectPath, fileName);
-            //读取文件
             ListRead();
         }
 
         //处理数据
-        //每行结构: 名称\t职业\t星级
-        private void ListRead()
+        private void ListRead(/*List<Staff> StaffLists*/)
         {
+            StaffLists = new List<Staff>();
             //if (staffLists != null)
             //{
             //    return;
             //}
-            staffLists = new List<Staff>();
-            XElement xElement = XElement.Load(path);
-            IEnumerable<XElement> careerList = from elements in xElement.Elements("staffList")
-                                               select elements;
-            foreach(XElement career in careerList)
+            //StaffLists = new List<Staff>();
+            XDocument xDocument = XDocument.Load(path);
+            IEnumerable<XElement> staffList = xDocument.Elements("staffList");
+            foreach(XElement item in staffList)
             {
-                IEnumerable<XElement> staffList = from element in career.Elements("career")
-                                                  select element;
-                foreach(XElement each in staffList)
+                IEnumerable<XElement> careerList = staffList.Elements("career");
+                foreach(XElement career in careerList)
                 {
-                    //目前只考虑罗列人员列表
-                    //name  star
-                    Staff staff = new Staff();
-                    staff.Name = each.Element("name").Value;
-                    staff.Star = int.Parse(each.Element("star").Value);
-                    //staff.Career = career.Attribute("type");
-                    staff.Career = (Career)System.Enum.Parse(typeof(Career), career.Attribute("type").Value);
-                    staffLists.Add(staff);
+                    IEnumerable<XElement> staffs = career.Elements("staff");
+                    foreach(XElement each in staffs)
+                    {
+                        Staff staff = new Staff();
+                        staff.Name = each.Element("name").Value;
+                        staff.Star = int.Parse(each.Element("star").Value);
+                        //staff.Career = career.Attribute("type");
+                        staff.Career = (Career)System.Enum.Parse(typeof(Career), career.Attribute("type").Value);
+                        StaffLists.Add(staff);
+                    }
                 }
             }
         }
