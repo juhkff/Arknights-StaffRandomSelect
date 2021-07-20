@@ -1,11 +1,12 @@
 ﻿<Page
-    x:Class="StaffRandomSelect.List"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:StaffRandomSelect"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Domain="clr-namespace:StaffRandomSelect.Domain"
+    x:Class="StaffRandomSelect.List"
     Title="List"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -16,10 +17,27 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
 
-    <StackPanel x:Name="Container">
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="aaa" />
-            <TextBlock Text="aaa" />
-        </StackPanel>
-    </StackPanel>
+    <ListView ItemsSource="{Binding Items1}">
+        <ListView.View>
+            <GridView>
+                <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="Code" />
+                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+                <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Description" />
+                <GridViewColumn Header="Options">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Width="100">
+                                <ComboBoxItem Content="Test" />
+                                <ComboBoxItem Content="Test2" />
+                                <ComboBoxItem Content="Test3" />
+                            </ComboBox>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </ListView.View>
+        <ListView.DataContext>
+            <Domain:ListModel/>
+        </ListView.DataContext>
+    </ListView>
 </Page>

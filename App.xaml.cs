@@ -63,7 +63,7 @@ namespace StaffRandomSelect
                     staff.Star = int.Parse(each.Element("star").Value);
                     //staff.Career = career.Attribute("type");
                     staff.Career = (Career)System.Enum.Parse(typeof(Career), career.Attribute("type").Value);
-                    StaffLists.Add(staff);
+                    staffLists.Add(staff);
                 }
             }
         }

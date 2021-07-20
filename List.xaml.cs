@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StaffRandomSelect.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace StaffRandomSelect
     {
         public List()
         {
+            DataContext = new ListModel();
             InitializeComponent();
             LoadList();
         }
@@ -32,5 +34,7 @@ namespace StaffRandomSelect
                 nameBlock.Text = staff.Name;
             }
         }
+
+        
     }
 }

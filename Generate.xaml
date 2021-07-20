@@ -26,6 +26,7 @@
         <Style TargetType="Button">
             <Setter Property="Margin" Value="0,20,0,20" />
         </Style>
+
     </Page.Resources>
 
     <StackPanel Width="auto" Orientation="Vertical">

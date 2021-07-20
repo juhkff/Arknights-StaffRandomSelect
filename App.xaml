@@ -14,6 +14,10 @@
                     SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
