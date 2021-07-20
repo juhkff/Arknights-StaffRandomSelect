@@ -36,5 +36,6 @@ namespace StuffRandomSelect
             Frame.Navigate(new Uri("/Generate.xaml", UriKind.Relative));
             Title.Text = "阵容生成";
         }
+
     }
 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,5 +15,36 @@ namespace StuffRandomSelect
     /// </summary>
     public partial class App : Application
     {
+        private List<string> staffLists { set; get; }
+        private string projectPath = Environment.CurrentDirectory.ToString();
+        private string fileName = "StaffList.txt";
+        private string path;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            LoadList();
+        }
+
+        //打开程序时加载文件数据
+        private void LoadList()
+        {
+            path = System.IO.Path.Combine(projectPath, fileName);
+            if (staffLists != null)
+            {
+                return;
+            }
+            staffLists = new List<string>();
+            //读取文件
+            if (File.Exists(path))
+            {
+                StreamReader sr = new StreamReader(path, Encoding.Default);
+                string line = null, nextLine = null;
+                while ((nextLine = sr.ReadLine()) != null)
+                {
+
+                }
+            }
+        }
     }
 }

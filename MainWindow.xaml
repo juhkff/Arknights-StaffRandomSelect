@@ -94,6 +94,14 @@
                             FontFamily="Microsoft YaHei"
                             FontWeight="Bold"
                             Style="{DynamicResource MaterialDesignFlatButton}" />
+                        <Button
+                            Margin="4"
+                            HorizontalAlignment="Center"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            Content="干员列表"
+                            FontFamily="Microsoft YaHei"
+                            FontWeight="Bold"
+                            Style="{DynamicResource MaterialDesignFlatButton}" />
                     </StackPanel>
                 </materialDesign:DrawerHost.LeftDrawerContent>
             </materialDesign:DrawerHost>
