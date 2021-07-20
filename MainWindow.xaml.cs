@@ -37,5 +37,10 @@ namespace StuffRandomSelect
             Title.Text = "阵容生成";
         }
 
+        private void Change_To_List(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(new Uri("/List.xaml", UriKind.Relative));
+            Title.Text = "干员列表";
+        }
     }
 }

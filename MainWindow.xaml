@@ -97,6 +97,7 @@
                         <Button
                             Margin="4"
                             HorizontalAlignment="Center"
+                            Click="Change_To_List"
                             Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                             Content="干员列表"
                             FontFamily="Microsoft YaHei"
