@@ -38,6 +38,7 @@
 
         <DataGrid.Columns>
             <DataGridCheckBoxColumn
+                Width="*"
                 Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
                 EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
                 ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
@@ -53,6 +54,7 @@
                 </DataGridCheckBoxColumn.HeaderStyle>
             </DataGridCheckBoxColumn>
             <DataGridTextColumn
+                Width="*"
                 Binding="{Binding Name}"
                 EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                 Header="名称">
@@ -65,6 +67,7 @@
                                     <TextBlock
                                         FontFamily="Microsoft YaHei"
                                         FontWeight="Bold"
+                                        Foreground="Orange"
                                         Text="{Binding}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
@@ -82,7 +85,10 @@
                 </DataGridTextColumn.ElementStyle>
             </DataGridTextColumn>
             <!--  if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn  -->
-            <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Header="稀有度">
+            <materialDesign:DataGridTextColumn
+                Width="*"
+                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                Header="稀有度">
                 <DataGridTextColumn.HeaderStyle>
                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -92,6 +98,7 @@
                                     <TextBlock
                                         FontFamily="Microsoft YaHei"
                                         FontWeight="Bold"
+                                        Foreground="Orange"
                                         Text="{Binding}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
@@ -116,7 +123,10 @@
                 </materialDesign:DataGridTextColumn.Binding>
             </materialDesign:DataGridTextColumn>
             <!--  set a max length to get an indicator in the editor  -->
-            <DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" Header="职业">
+            <DataGridTextColumn
+                Width="*"
+                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                Header="职业">
                 <DataGridTextColumn.HeaderStyle>
                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -126,6 +136,7 @@
                                     <TextBlock
                                         FontFamily="Microsoft YaHei"
                                         FontWeight="Bold"
+                                        Foreground="Orange"
                                         Text="{Binding}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />

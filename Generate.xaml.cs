@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,15 +14,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StuffRandomSelect
+namespace StaffRandomSelect
 {
     /// <summary>
     /// Default.xaml 的交互逻辑
     /// </summary>
     public partial class Generate : Page
     {
+        public ObservableCollection<Staff> ResultList { get; }
+
         public Generate()
         {
+            ResultList = new ObservableCollection<Staff>();
+            DataContext = this;
             InitializeComponent();
         }
 
@@ -31,65 +37,33 @@ namespace StuffRandomSelect
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<string> lists = new List<string>();
-            string projectPath = Environment.CurrentDirectory.ToString();
-            string fileName = "StaffList.txt";
-            string path;
-            if (!Directory.Exists(projectPath))
+            int resultNum = int.Parse(RandomNumText.Text);
+            int length = App.staffLists.Count;
+            HashSet<string> nameSet = App.staffLists.Select(staff => staff.Name).ToHashSet();   //获得名字集合
+            HashSet<int> indexSet = new HashSet<int>(); //存储生成的索引的集合
+            if (nameSet.Count != length)
             {
-                throw new Exception("程序异常");
+                //有重复干员名称时：先不做处理
+                length = nameSet.Count;
             }
-            else
+            if (length <= 0 || resultNum > length)
             {
-                path = System.IO.Path.Combine(projectPath, fileName);
-                //暂不考虑是否存在文件
-                if (File.Exists(path))
-                {
-                    StreamReader sr = new StreamReader(path, Encoding.Default);
-                    string line = null, nextLine = null;
-                    while ((nextLine = sr.ReadLine()) != null)
-                    {
-                        if (nextLine.Length <= 0)
-                        {
-                            continue;
-                        }
-                        line = nextLine;
-                        lists.Add(line.Split("\t")[0]);     //lists的处理也是日后的工作
-                    }
-                    int randomNum = int.Parse(RandomNumText.Text);
-                    if (randomNum > lists.Count)
-                    {
-                        //数量不够
-                        //日后处理
-                    }
-                    else
-                    {
-                        //随机生成
-                        int curNum = 0;
-                        HashSet<int> indexSet = new HashSet<int>();
-                        Random random = new Random();
-                        while (curNum < randomNum)
-                        {
-                            int newIndex=random.Next(0, lists.Count);
-                            if (indexSet.Contains(newIndex))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                indexSet.Add(newIndex);
-                                curNum++;
-                            }
-                        }
-                        //结束生成
-                        string result = "";
-                        foreach(int cur in indexSet)
-                        {
-                            result += lists[cur] + "\t";
-                        }
-                        ResultBlock.Text = result;
-                    }
-                }
+                //无法生成满足要求的结果时
+                return;
+            }
+            //实现功能
+            ResultList.Clear();
+            Random random = new Random();
+            for (int i = 0; i < resultNum; i++)
+            {
+                int curIndex;
+                while (indexSet.Contains(curIndex = random.Next(length))) { };
+                indexSet.Add(curIndex);
+            }
+            //获得index集合
+            foreach (int index in indexSet)
+            {
+                ResultList.Add(App.staffLists[index]);
             }
         }
     }
