@@ -23,16 +23,15 @@ namespace StaffRandomSelect
         {
             DataContext = new ListModel();
             InitializeComponent();
-            LoadList();
         }
 
         private void LoadList()
         {
-            foreach(Staff staff in App.staffLists)
-            {
-                TextBlock nameBlock = new TextBlock();
-                nameBlock.Text = staff.Name;
-            }
+            //foreach(Staff staff in App.StaffLists)
+            //{
+            //    TextBlock nameBlock = new TextBlock();
+            //    nameBlock.Text = staff.Name;
+            //}
         }
 
         

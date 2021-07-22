@@ -134,24 +134,31 @@
     <!--<ListView ItemsSource="{Binding Items1}">
         <ListView.View>
             <GridView>
-                <GridViewColumn DisplayMemberBinding="{Binding Code}" Header="Code" />
-                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-                <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Description" />
-                <GridViewColumn Header="Options">
+                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="名称">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox Width="100">
-                                <ComboBoxItem Content="Test" />
-                                <ComboBoxItem Content="Test2" />
-                                <ComboBoxItem Content="Test3" />
-                            </ComboBox>
+                            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Star}" Header="稀有度">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Career}" Header="职业">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
             </GridView>
         </ListView.View>
         <ListView.DataContext>
-            <Domain:ListModel/>
+            <Domain:ListModel />
         </ListView.DataContext>
     </ListView>-->
 

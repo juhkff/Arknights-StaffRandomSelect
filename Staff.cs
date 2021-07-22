@@ -8,7 +8,6 @@
         private bool isSelected;
 
 
-
         public Staff() { }
 
         public Staff(string name, int star, Career career)
