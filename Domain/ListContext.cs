@@ -12,7 +12,7 @@ namespace StaffRandomSelect.Domain
             return new ListContext();
         }
 
-        public object? Context
+        public object Context
         {
             get => GetValue(dependencyProperty);
             set => SetValue(dependencyProperty, value);

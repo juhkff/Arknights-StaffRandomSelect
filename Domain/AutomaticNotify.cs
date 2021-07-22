@@ -10,9 +10,9 @@ namespace StaffRandomSelect.Domain
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool SetProperty<T>(ref T property,T value,[CallerMemberName]string propertyName=null)
+        public bool SetProperty<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
         {
-            if (EqualityComparer<T>.Default.Equals(property,value))
+            if (EqualityComparer<T>.Default.Equals(property, value))
             {
                 return false;
             }
@@ -21,9 +21,9 @@ namespace StaffRandomSelect.Domain
             return true;
         }
 
-        protected void OnPropertyChanged([CallerMemberName]string propertyName=null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

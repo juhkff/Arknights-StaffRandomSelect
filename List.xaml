@@ -55,13 +55,58 @@
             <DataGridTextColumn
                 Binding="{Binding Name}"
                 EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                Header="名称" />
+                Header="名称">
+                <DataGridTextColumn.HeaderStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock
+                                        FontFamily="Microsoft YaHei"
+                                        FontWeight="Bold"
+                                        Text="{Binding}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGridTextColumn.HeaderStyle>
+                <DataGridTextColumn.ElementStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextAlignment" Value="Center" />
+                        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
             <!--  if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn  -->
-            <materialDesign:DataGridTextColumn
-                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
-                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                Header="稀有度">
+            <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Header="稀有度">
+                <DataGridTextColumn.HeaderStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock
+                                        FontFamily="Microsoft YaHei"
+                                        FontWeight="Bold"
+                                        Text="{Binding}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGridTextColumn.HeaderStyle>
+                <DataGridTextColumn.ElementStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextAlignment" Value="Center" />
+                        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
                 <materialDesign:DataGridTextColumn.Binding>
                     <Binding Path="Star">
                         <!--<Binding.ValidationRules>
@@ -71,10 +116,31 @@
                 </materialDesign:DataGridTextColumn.Binding>
             </materialDesign:DataGridTextColumn>
             <!--  set a max length to get an indicator in the editor  -->
-            <DataGridTextColumn
-                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                Header="职业">
+            <DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" Header="职业">
+                <DataGridTextColumn.HeaderStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock
+                                        FontFamily="Microsoft YaHei"
+                                        FontWeight="Bold"
+                                        Text="{Binding}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGridTextColumn.HeaderStyle>
+                <DataGridTextColumn.ElementStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextAlignment" Value="Center" />
+                        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
                 <DataGridTextColumn.Binding>
                     <Binding Path="Career">
                         <!--<Binding.ValidationRules>

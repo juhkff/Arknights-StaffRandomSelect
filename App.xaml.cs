@@ -18,7 +18,7 @@ namespace StaffRandomSelect
     /// </summary>
     public partial class App : Application
     {
-        public static List<Staff> StaffLists;
+        public static ObservableCollection<Staff> staffLists;
 
         private static string projectPath = Environment.CurrentDirectory.ToString();
         private static string fileName = "StaffList.xml";
@@ -41,7 +41,7 @@ namespace StaffRandomSelect
         //处理数据
         private void ListRead(/*List<Staff> StaffLists*/)
         {
-            StaffLists = new List<Staff>();
+            staffLists = new ObservableCollection<Staff>();
             //if (staffLists != null)
             //{
             //    return;
@@ -62,7 +62,8 @@ namespace StaffRandomSelect
                         staff.Star = int.Parse(each.Element("star").Value);
                         //staff.Career = career.Attribute("type");
                         staff.Career = (Career)System.Enum.Parse(typeof(Career), career.Attribute("type").Value);
-                        StaffLists.Add(staff);
+                        staff.IsSelected = Convert.ToBoolean(int.Parse(each.Element("selected").Value));
+                        staffLists.Add(staff);
                     }
                 }
             }
