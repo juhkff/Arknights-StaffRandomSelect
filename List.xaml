@@ -21,7 +21,6 @@
     <DataGrid
         AutoGenerateColumns="False"
         CanUserAddRows="False"
-        HeadersVisibility="All"
         ItemsSource="{Binding StaffList}">
         <!--<DataGrid.DataContext>
             <Domain:ListModel />

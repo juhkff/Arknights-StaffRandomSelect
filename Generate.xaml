@@ -62,7 +62,6 @@
         <DataGrid
             AutoGenerateColumns="False"
             CanUserAddRows="False"
-            HeadersVisibility="All"
             IsReadOnly="True"
             ItemsSource="{Binding ResultList}">
             <DataGrid.Columns>
@@ -74,13 +73,14 @@
                     <DataGridTextColumn.HeaderStyle>
                         <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#FFEEECEC" />
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
                                         <TextBlock
                                             FontFamily="Microsoft YaHei"
                                             FontWeight="Bold"
-                                            Foreground="Blue"
+                                            Foreground="#FFAB68BD"
                                             Text="{Binding}"
                                             TextAlignment="Center"
                                             TextWrapping="Wrap" />
@@ -106,13 +106,14 @@
                     <DataGridTextColumn.HeaderStyle>
                         <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#FFEEECEC" />
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
                                         <TextBlock
                                             FontFamily="Microsoft YaHei"
                                             FontWeight="Bold"
-                                            Foreground="Blue"
+                                            Foreground="#FFAB68BD"
                                             Text="{Binding}"
                                             TextAlignment="Center"
                                             TextWrapping="Wrap" />
@@ -138,13 +139,14 @@
                     <DataGridTextColumn.HeaderStyle>
                         <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#FFEEECEC" />
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
                                         <TextBlock
                                             FontFamily="Microsoft YaHei"
                                             FontWeight="Bold"
-                                            Foreground="Blue"
+                                            Foreground="#FFAB68BD"
                                             Text="{Binding}"
                                             TextAlignment="Center"
                                             TextWrapping="Wrap" />

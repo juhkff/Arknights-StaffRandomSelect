@@ -39,7 +39,7 @@ namespace StaffRandomSelect
         {
             int resultNum = int.Parse(RandomNumText.Text);
             int length = App.staffLists.Count;
-            HashSet<string> nameSet = App.staffLists.Select(staff => staff.Name).ToHashSet();   //获得名字集合
+            HashSet<string> nameSet = App.GetNameSet(); //获得名字集合
             HashSet<int> indexSet = new HashSet<int>(); //存储生成的索引的集合
             if (nameSet.Count != length)
             {
@@ -57,7 +57,8 @@ namespace StaffRandomSelect
             for (int i = 0; i < resultNum; i++)
             {
                 int curIndex;
-                while (indexSet.Contains(curIndex = random.Next(length))) { };
+                curIndex = random.Next(length);
+                while ((!App.staffLists[curIndex].IsSelected) || indexSet.Contains(curIndex = random.Next(length))) { };
                 indexSet.Add(curIndex);
             }
             //获得index集合

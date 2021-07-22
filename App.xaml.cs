@@ -38,6 +38,15 @@ namespace StaffRandomSelect
             ListRead();
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            //退出时写入文件
+            ListWrite();
+            base.OnExit(e);
+        }
+
+
+
         //处理数据
         private void ListRead(/*List<Staff> StaffLists*/)
         {
@@ -67,6 +76,22 @@ namespace StaffRandomSelect
                     }
                 }
             }
+        }
+
+        private void ListWrite()
+        {
+            XDocument xDocument = XDocument.Load(path);
+            //xDocument.RemoveNodes();
+            
+            //重新写入节点
+            // Code
+            xDocument.Save(new FileStream(path, FileMode.Create));
+        }
+
+        //生成名字集合
+        public static HashSet<string> GetNameSet()
+        {
+            return staffLists.Select(staff => staff.Name).ToHashSet();   //获得名字集合
         }
     }
 }

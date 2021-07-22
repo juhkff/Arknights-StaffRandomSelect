@@ -120,8 +120,9 @@
             Margin="0,20,0,20"
             materialDesign:ButtonAssist.CornerRadius="10"
             Click="Input_Click"
+            Cursor="Hand"
             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-            Style="{StaticResource MaterialDesignRaisedButton}" Cursor="Hand">
+            Style="{StaticResource MaterialDesignRaisedButton}">
             <TextBlock
                 Width="auto"
                 FontWeight="Bold"
@@ -139,7 +140,7 @@
             Message="列表中已有该干员" />
         <materialDesign:Snackbar
             x:Name="SnackbarTwo"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -149,7 +150,7 @@
             Message="请选择职阶" />
         <materialDesign:Snackbar
             x:Name="SnackbarThree"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

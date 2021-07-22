@@ -37,18 +37,21 @@
                 x:Name="DrawerHost"
                 HorizontalAlignment="Stretch"
                 BorderBrush="{DynamicResource MaterialDesignDivider}">
-                <materialDesign:ColorZone Padding="16" Mode="PrimaryLight">
-                    <DockPanel LastChildFill="True">
-                        <Button
-                            Width="40"
-                            Height="40"
-                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Left}"
-                            Content="{materialDesign:PackIcon Kind=Menu,
-                                                              Size=30}"
-                            Style="{StaticResource MaterialDesignFloatingActionButton}" />
+                <materialDesign:ColorZone
+                    Padding="16"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    ClipToBounds="False"
+                    CornerRadius="0 0 10 10"
+                    Mode="PrimaryLight">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
                         <TextBlock
                             x:Name="Title"
+                            Grid.ColumnSpan="2"
                             Margin="16,0,0,0"
                             VerticalAlignment="Center"
                             FontFamily="Microsoft YaHei"
@@ -57,7 +60,15 @@
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                             Text="阵容生成"
                             TextAlignment="Center" />
-                    </DockPanel>
+                        <Button
+                            Width="40"
+                            Height="40"
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Content="{materialDesign:PackIcon Kind=Menu,
+                                                              Size=30}"
+                            Style="{StaticResource MaterialDesignFloatingActionButton}" />
+                    </Grid>
                 </materialDesign:ColorZone>
                 <materialDesign:DrawerHost.Style>
                     <Style BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}" TargetType="materialDesign:DrawerHost">
