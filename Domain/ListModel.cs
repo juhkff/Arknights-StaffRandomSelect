@@ -2,60 +2,81 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace StaffRandomSelect.Domain
 {
-    public class ListModel
+    public class ListModel : AutomaticNotify
     {
-        public ObservableCollection<Test> Items1 { get; }
+        public ObservableCollection<Staff> StaffList { get; }
         public ListModel()
         {
-            Items1 = new ObservableCollection<Test>();
-            Test test1 = new Test();
-            test1.Code = "Code1";
-            test1.Name = "Name1";
-            test1.Description = "Description1";
-            Items1.Add(test1);
-        }
-    }
-
-    public class Test : INotifyPropertyChanged
-    {
-        private string code;
-        private string name;
-        private string description;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public Test() { }
-        public Test(string code,string name,string description)
-        {
-            Code = code;
-            Name = name;
-            Description = description;
+            StaffList = App.staffLists;
         }
 
-        public string Code { get => code; set => SetProperty(ref code, value); }
-        public string Name { get => name; set => SetProperty(ref name, value); }
-        public string Description { get => description; set => SetProperty(ref description, value); }
-
-
-
-        public bool SetProperty<T>(ref T property, T value, [CallerMemberName] string? propertyName = null)
+        public bool? IsAllStaffSelected
         {
-            if (EqualityComparer<T>.Default.Equals(property, value))
+            get
             {
-                return false;
+                var selected = StaffList.Select(item => item.IsSelected).Distinct().ToList();
+                return selected.Count == 1 ? selected.Single() : (bool?)null;
             }
-            property = value;
-            OnPropertyChanged(propertyName);
-            return true;
+            set
+            {
+                if (value.HasValue)
+                {
+                    SelectAll(value.Value, StaffList);
+                    OnPropertyChanged();
+                }
+            }
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        
+        private static void SelectAll(bool select,IEnumerable<Staff> staffs)
+        {
+            foreach(var staff in staffs)
+            {
+                staff.IsSelected = select;
+            }
+        }
     }
+
+    //public class Staff : INotifyPropertyChanged
+    //{
+    //    private string code;
+    //    private string name;
+    //    private string description;
+
+    //    public event PropertyChangedEventHandler? PropertyChanged;
+
+    //    public Staff() { }
+    //    public Staff(string code,string name,string description)
+    //    {
+    //        Code = code;
+    //        Name = name;
+    //        Description = description;
+    //    }
+
+    //    public string Code { get => code; set => SetProperty(ref code, value); }
+    //    public string Name { get => name; set => SetProperty(ref name, value); }
+    //    public string Description { get => description; set => SetProperty(ref description, value); }
+
+
+
+    //    public bool SetProperty<T>(ref T property, T value, [CallerMemberName] string? propertyName = null)
+    //    {
+    //        if (EqualityComparer<T>.Default.Equals(property, value))
+    //        {
+    //            return false;
+    //        }
+    //        property = value;
+    //        OnPropertyChanged(propertyName);
+    //        return true;
+    //    }
+
+    //    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
+    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        
+    //}
 }

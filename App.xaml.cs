@@ -1,6 +1,7 @@
 ﻿using StaffRandomSelect;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.IO;
@@ -17,10 +18,10 @@ namespace StaffRandomSelect
     /// </summary>
     public partial class App : Application
     {
-        public static List<Staff> staffLists;
+        public static ObservableCollection<Staff> staffLists;
 
-        private string projectPath = Environment.CurrentDirectory.ToString();
-        private string fileName = "StaffList.xml";
+        private readonly string projectPath = Environment.CurrentDirectory.ToString();
+        private readonly string fileName = "StaffList.xml";
         private string path;
 
 
@@ -46,7 +47,7 @@ namespace StaffRandomSelect
             //{
             //    return;
             //}
-            staffLists = new List<Staff>();
+            staffLists = new ObservableCollection<Staff>();
             XElement xElement = XElement.Load(path);
             IEnumerable<XElement> careerList = from elements in xElement.Elements("staffList")
                                                select elements;
