@@ -18,20 +18,16 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <Style TargetType="DockPanel">
+            <Setter Property="Margin" Value="0,20,0,20" />
+        </Style>
         <Style TargetType="StackPanel">
             <Setter Property="Margin" Value="0,20,0,20" />
         </Style>
-        <Style TargetType="Slider">
-            <Setter Property="Margin" Value="0,20,0,20" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="0,20,0,20" />
-        </Style>
-
     </Page.Resources>
 
-    <StackPanel Width="auto" Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
+    <DockPanel Width="auto" LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <TextBlock FontFamily="Microsoft YaHei" FontWeight="Bold">随机数量：</TextBlock>
             <TextBlock
                 x:Name="RandomNumText"
@@ -40,6 +36,7 @@
         </StackPanel>
         <Slider
             x:Name="Slider"
+            DockPanel.Dock="Top"
             Maximum="12"
             Minimum="1"
             Style="{StaticResource MaterialDesignDiscreteSlider}"
@@ -51,6 +48,8 @@
             Margin="0,20,0,20"
             materialDesign:ButtonAssist.CornerRadius="10"
             Click="Button_Click"
+            Cursor="Hand"
+            DockPanel.Dock="Top"
             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
             Style="{StaticResource MaterialDesignRaisedButton}">
             <TextBlock
@@ -58,10 +57,16 @@
                 FontWeight="Bold"
                 Text="生成" />
         </Button>
-        <TextBlock FontFamily="Microsoft YaHei" FontWeight="Bold">结果：</TextBlock>
+        <TextBlock
+            DockPanel.Dock="Top"
+            FontFamily="Microsoft YaHei"
+            FontWeight="Bold">
+            结果：
+        </TextBlock>
         <DataGrid
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            DockPanel.Dock="Top"
             IsReadOnly="True"
             ItemsSource="{Binding ResultList}">
             <DataGrid.Columns>
@@ -165,5 +170,5 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-    </StackPanel>
+    </DockPanel>
 </Page>

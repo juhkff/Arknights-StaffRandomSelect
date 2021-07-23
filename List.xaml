@@ -18,6 +18,7 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
 
+
     <DataGrid
         AutoGenerateColumns="False"
         CanUserAddRows="False"
