@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace StaffRandomSelect
@@ -80,12 +81,43 @@ namespace StaffRandomSelect
 
         private void ListWrite()
         {
-            XDocument xDocument = XDocument.Load(path);
-            //xDocument.RemoveNodes();
-            
-            //重新写入节点
-            // Code
-            xDocument.Save(new FileStream(path, FileMode.Create));
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(path);
+            XmlNode root = xmlDocument.SelectSingleNode("staffList");
+            root.RemoveAll();
+            //删除除staffList外的所有节点后得到职业分组
+            IEnumerable<StaffGroupByCareer> GroupList = staffLists.GroupBy(x => x.Career).Select(x => new StaffGroupByCareer { Career = x.Key, StaffList = x.ToList() });
+            foreach (StaffGroupByCareer staffsWithCareer in GroupList)
+            {
+                XmlElement careerElement = xmlDocument.CreateElement("career");
+                careerElement.SetAttribute("type", staffsWithCareer.Career.ToString());
+                foreach (Staff staff in staffsWithCareer.StaffList)
+                {
+                    AddStaff(xmlDocument, careerElement, staff);
+                }
+                root.AppendChild(careerElement);
+            }
+            xmlDocument.Save(path);
+        }
+
+        private void AddStaff(XmlDocument file,XmlElement parentNode,Staff staff)
+        {
+            /*<staff>
+                <name>风笛</name>
+                <star>6</star>
+                <selected>1</selected>
+            </staff>*/
+            XmlElement staffElement = file.CreateElement("staff");
+            XmlElement nameElement = file.CreateElement("name");
+            XmlElement starElement = file.CreateElement("star");
+            XmlElement selectedElement = file.CreateElement("selected");
+            nameElement.InnerText = staff.Name.ToString();
+            starElement.InnerText = staff.Star.ToString();
+            selectedElement.InnerText = Convert.ToInt32(staff.IsSelected).ToString();
+            staffElement.AppendChild(nameElement);
+            staffElement.AppendChild(starElement);
+            staffElement.AppendChild(selectedElement);
+            parentNode.AppendChild(staffElement);
         }
 
         //生成名字集合

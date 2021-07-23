@@ -38,8 +38,11 @@ namespace StaffRandomSelect
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             int resultNum = int.Parse(RandomNumText.Text);
-            int length = App.staffLists.Count;
-            HashSet<string> nameSet = App.GetNameSet(); //获得名字集合
+            List<Staff> SelectedList = App.staffLists.Where(x => x.IsSelected).Select(x => x).ToList();
+            //int length = App.staffLists.Count;
+            int length = SelectedList.Count;
+            //HashSet<string> nameSet = App.GetNameSet(); //获得名字集合
+            HashSet<string> nameSet = SelectedList.Select(staff => staff.Name).ToHashSet(); //获得名字集合
             HashSet<int> indexSet = new HashSet<int>(); //存储生成的索引的集合
             if (nameSet.Count != length)
             {
@@ -57,14 +60,14 @@ namespace StaffRandomSelect
             for (int i = 0; i < resultNum; i++)
             {
                 int curIndex;
-                curIndex = random.Next(length);
-                while ((!App.staffLists[curIndex].IsSelected) || indexSet.Contains(curIndex = random.Next(length))) { };
+                while (indexSet.Contains(curIndex = random.Next(length))) { };
                 indexSet.Add(curIndex);
             }
             //获得index集合
             foreach (int index in indexSet)
             {
-                ResultList.Add(App.staffLists[index]);
+                //ResultList.Add(App.staffLists[index]);
+                ResultList.Add(SelectedList[index]);
             }
         }
     }
