@@ -36,6 +36,18 @@ namespace StaffRandomSelect
         private void LoadList()
         {
             path = System.IO.Path.Combine(projectPath, fileName);
+            if (!File.Exists(path))
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                XmlDeclaration xmldec = xmldoc.CreateXmlDeclaration("1.0", "utf-8", "yes");
+                xmldoc.AppendChild(xmldec);
+
+                //添加根节点
+                XmlElement rootElement = xmldoc.CreateElement("staffList");
+                rootElement.InnerText = "";
+                xmldoc.AppendChild(rootElement);
+                xmldoc.Save(path);
+            }
             ListRead();
         }
 
