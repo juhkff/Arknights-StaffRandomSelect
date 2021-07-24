@@ -25,18 +25,21 @@ namespace StaffRandomSelect
             InitializeComponent();
             ComboBoxColumn.ItemsSource = Enum.GetValues(typeof(Career));
             StarColumn.ItemsSource = new int[] { 1, 2, 3, 4, 5, 6 };
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.staffLists.RemoveAt(DataGrid.SelectedIndex);
+        }
+
+        private void TextBlock_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
             
         }
 
-        private void LoadList()
+        private void TextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
-            //foreach(Staff staff in App.StaffLists)
-            //{
-            //    TextBlock nameBlock = new TextBlock();
-            //    nameBlock.Text = staff.Name;
-            //}
+            App.staffLists.RemoveAt(DataGrid.SelectedIndex);
         }
-
-        
     }
 }

@@ -18,6 +18,7 @@
     mc:Ignorable="d">
 
     <DataGrid
+        x:Name="DataGrid"
         AutoGenerateColumns="False"
         CanUserAddRows="False"
         ItemsSource="{Binding StaffList}">
@@ -25,6 +26,14 @@
         <DataGrid.Resources>
             <Domain:ListContext x:Key="ListContextProxy" Context="{Binding}" />
             <Domain:NotEmptyValidationRule x:Key="rule" />
+
+            <Style
+                x:Key="ButtonStyle"
+                BasedOn="{StaticResource MaterialDesignFlatButton}"
+                TargetType="{x:Type ButtonBase}">
+                <Setter Property="Height" Value="auto" />
+                <Setter Property="Padding" Value="0,1,0,1" />
+            </Style>
         </DataGrid.Resources>
 
         <DataGrid.Columns>
@@ -78,6 +87,7 @@
                     <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}" TargetType="{x:Type TextBlock}">
                         <Setter Property="HorizontalAlignment" Value="Center" />
                         <Setter Property="TextAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
                         <Setter Property="FontFamily" Value="Microsoft YaHei" />
                     </Style>
                 </materialDesign:DataGridTextColumn.ElementStyle>
@@ -85,6 +95,7 @@
                     <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" TargetType="{x:Type TextBox}">
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
                         <Setter Property="TextAlignment" Value="Center" />
                         <Setter Property="FontFamily" Value="Microsoft YaHei" />
                     </Style>
@@ -146,11 +157,6 @@
                 </DataGridComboBoxColumn.HeaderStyle>
             </materialDesign:DataGridComboBoxColumn>
 
-
-
-
-
-
             <materialDesign:DataGridComboBoxColumn
                 x:Name="ComboBoxColumn"
                 Width="2*"
@@ -201,6 +207,35 @@
                     </Style>
                 </materialDesign:DataGridComboBoxColumn.HeaderStyle>
             </materialDesign:DataGridComboBoxColumn>
+
+            <DataGridTemplateColumn Width="2*">
+                <DataGridTemplateColumn.HeaderStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </DataGridTemplateColumn.HeaderStyle>
+                <DataGridTemplateColumn.Header>
+                    <StackPanel>
+                        <TextBlock
+                            HorizontalAlignment="Stretch"
+                            FontFamily="Microsoft YaHei"
+                            FontWeight="Bold"
+                            Foreground="Orange"
+                            Text="操作"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button
+                            Click="Button_Click"
+                            Content="删除"
+                            FontFamily="Microsoft YaHei"
+                            Style="{StaticResource ButtonStyle}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
         </DataGrid.Columns>
     </DataGrid>
 </ContentControl>
