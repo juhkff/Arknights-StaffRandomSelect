@@ -19,7 +19,7 @@ namespace StaffRandomSelect
     /// <summary>
     /// Default.xaml 的交互逻辑
     /// </summary>
-    public partial class Generate : Page
+    public partial class Generate : ContentControl
     {
         public ObservableCollection<Staff> ResultList { get; }
 

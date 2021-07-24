@@ -14,7 +14,7 @@ namespace StaffRandomSelect.Domain
         public ListModel()
         {
             StaffList = App.staffLists;
-            foreach (var staff in StaffList)
+            foreach (Staff staff in StaffList)
             {
                 staff.PropertyChanged += (sender, args) =>
                 {

@@ -19,7 +19,7 @@ namespace StaffRandomSelect
     /// <summary>
     /// Input.xaml 的交互逻辑
     /// </summary>
-    public partial class Input : Page
+    public partial class Input : ContentControl
     {
         private Timer timer;
         public Input()

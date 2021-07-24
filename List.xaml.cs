@@ -17,12 +17,15 @@ namespace StaffRandomSelect
     /// <summary>
     /// List.xaml 的交互逻辑
     /// </summary>
-    public partial class List : Page
+    public partial class List : ContentControl
     {
         public List()
         {
             DataContext = new ListModel();
             InitializeComponent();
+            ComboBoxColumn.ItemsSource = Enum.GetValues(typeof(Career));
+            StarColumn.ItemsSource = new int[] { 1, 2, 3, 4, 5, 6 };
+            
         }
 
         private void LoadList()
