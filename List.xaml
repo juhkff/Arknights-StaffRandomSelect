@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:StaffRandomSelect"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
     d:DataContext="{d:DesignInstance Domain:ListModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -26,6 +27,29 @@
         <DataGrid.Resources>
             <Domain:ListContext x:Key="ListContextProxy" Context="{Binding}" />
             <Domain:NotEmptyValidationRule x:Key="rule" />
+
+            <DataTemplate DataType="{x:Type system:DateTime}">
+                <StackPanel Margin="16">
+                    <TextBlock
+                        FontFamily="Microsoft YaHei"
+                        FontWeight="Bold"
+                        Text="确定删除？" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Margin="0,8,4,0"
+                            Click="Button_Click"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="确定"
+                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                        <Button
+                            Margin="4,8,0,0"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                            Content="取消"
+                            IsDefault="True"
+                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
 
             <Style
                 x:Key="ButtonStyle"
@@ -275,11 +299,21 @@
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Button
-                            Click="Button_Click"
-                            Content="删除"
-                            FontFamily="Microsoft YaHei"
-                            Style="{StaticResource ButtonStyle}" />
+                        <materialDesign:DialogHost>
+                            <Button
+                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                Content="删除"
+                                FontFamily="Microsoft YaHei"
+                                Style="{StaticResource ButtonStyle}">
+                                <Button.CommandParameter>
+                                    <!--
+                                        the simplest view model of all, a DateTime.
+                                        the view can be found in the resources of MainWindow.xaml
+                                    -->
+                                    <system:DateTime />
+                                </Button.CommandParameter>
+                            </Button>
+                        </materialDesign:DialogHost>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
