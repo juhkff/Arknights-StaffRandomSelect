@@ -10,6 +10,6 @@
 ----
 
 ## 运行界面
-![](https://github.com/juhkff/Arknights-StaffRandomSelect/blob/master/images/image1.jpg)
-![](https://github.com/juhkff/Arknights-StaffRandomSelect/blob/master/images/image2.jpg)
-![](https://github.com/juhkff/Arknights-StaffRandomSelect/blob/master/images/image3.jpg)
+![](https://github.com/juhkff/Arknights-StaffRandomSelect/blob/master/images/image01.jpg)
+![](https://github.com/juhkff/Arknights-StaffRandomSelect/blob/master/images/image02.jpg)
+![](https://github.com/juhkff/Arknights-StaffRandomSelect/blob/master/images/image03.jpg)
