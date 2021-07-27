@@ -93,5 +93,15 @@ namespace StaffRandomSelect
         {
 
         }
+
+        private void EliteTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void EliteTextBox_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }
