@@ -39,14 +39,12 @@
                             Margin="0,8,4,0"
                             Click="Button_Click"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                            Content="确定"
-                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                            Content="确定" />
                         <Button
                             Margin="4,8,0,0"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                             Content="取消"
-                            IsDefault="True"
-                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                            IsDefault="True" />
                     </StackPanel>
                 </StackPanel>
             </DataTemplate>
