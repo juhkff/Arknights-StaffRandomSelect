@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
     Title="MainWindow"
-    Width="480"
-    Height="640"
+    Width="640"
+    Height="720"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{materialDesign:MaterialDesignFont}"
     TextElement.FontSize="14"
@@ -106,7 +106,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
-                        x:Name="Title"
+                        x:Name="WindowTitle"
                         Grid.ColumnSpan="2"
                         Margin="16,0,0,0"
                         VerticalAlignment="Center"

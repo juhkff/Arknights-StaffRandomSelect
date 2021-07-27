@@ -37,21 +37,21 @@ namespace StuffRandomSelect
         {
             //Frame.Navigate(new Uri("/Input.xaml",UriKind.Relative));
             ContentControl.Content = input;
-            Title.Text = "干员录入";
+            WindowTitle.Text = "干员录入";
         }
 
         private void Change_To_Generate(object sender, RoutedEventArgs e)
         {
             //Frame.Navigate(new Uri("/Generate.xaml", UriKind.Relative));
             ContentControl.Content = generate;
-            Title.Text = "阵容生成";
+            WindowTitle.Text = "阵容生成";
         }
 
         private void Change_To_List(object sender, RoutedEventArgs e)
         {
             //Frame.Navigate(new Uri("/List.xaml", UriKind.Relative));
             ContentControl.Content = list;
-            Title.Text = "干员列表";
+            WindowTitle.Text = "干员列表";
         }
     }
 }

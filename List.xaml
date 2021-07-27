@@ -102,6 +102,53 @@
                 </materialDesign:DataGridTextColumn.EditingElementStyle>
             </materialDesign:DataGridTextColumn>
             <!--  if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn  -->
+            <materialDesign:DataGridTextColumn
+                x:Name="LevelRegion"
+                Width="2*"
+                Header="等级">
+                <materialDesign:DataGridTextColumn.Binding>
+                    <Binding Mode="TwoWay" Path="Level.Description">
+                        <Binding.ValidationRules>
+                            <Domain:NotCorrectValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </materialDesign:DataGridTextColumn.Binding>
+                <materialDesign:DataGridTextColumn.HeaderStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock
+                                        FontFamily="Microsoft YaHei"
+                                        FontWeight="Bold"
+                                        Foreground="Orange"
+                                        Text="{Binding}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </materialDesign:DataGridTextColumn.HeaderStyle>
+                <materialDesign:DataGridTextColumn.ElementStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="TextAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    </Style>
+                </materialDesign:DataGridTextColumn.ElementStyle>
+                <materialDesign:DataGridTextColumn.EditingElementStyle>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" TargetType="{x:Type TextBox}">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="TextAlignment" Value="Center" />
+                        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    </Style>
+                </materialDesign:DataGridTextColumn.EditingElementStyle>
+            </materialDesign:DataGridTextColumn>
 
             <materialDesign:DataGridComboBoxColumn
                 x:Name="StarColumn"

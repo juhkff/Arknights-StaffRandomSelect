@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -75,7 +76,7 @@ namespace StaffRandomSelect
                 return;
             }
             //列表中没有重复名
-            App.staffLists.Add(new Staff { Name = name, Star = star, Career = career, IsSelected = true });
+            App.staffLists.Add(new Staff { Name = name, Star = star, Career = career, IsSelected = true, Level = new Level(int.Parse(EliteTextBox.Text), int.Parse(RankTextBox.Text)) });
             SetTimer(SnackbarThree);
         }
 
@@ -96,12 +97,68 @@ namespace StaffRandomSelect
 
         private void EliteTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-
+            //只接受0、1的值和tab键、左右键
+            //屏蔽非法按键
+            bool result1 = (e.Key < Key.NumPad0
+                || e.Key > Key.NumPad2) && (e.Key < Key.D0 || e.Key > Key.D2) && e.Key != Key.Back && e.Key != Key.Tab && e.Key != Key.Left && e.Key != Key.Right;  //输入只能是0、1、2和tab、退格
+            if (result1)
+            {
+                e.Handled = true;
+            }
+            else if (EliteTextBox.Text != "" && e.Key != Key.Back && e.Key != Key.Left && e.Key != Key.Right)
+            {
+                e.Handled = true;
+            }
         }
 
-        private void EliteTextBox_TextInput(object sender, TextCompositionEventArgs e)
+        private void RankTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            bool result1 = (e.Key < Key.NumPad0 || e.Key > Key.NumPad9) && (e.Key < Key.D0 || e.Key > Key.D9);
+            if (e.Key != Key.Back && e.Key != Key.Tab && e.Key != Key.Left && e.Key != Key.Right && (result1 || RankTextBox.Text.Length >= 2))   //输入只能是0、1、2和tab、退格、左右键，且长度不得超过2
+            {
+                e.Handled = true;
+            }
+            else if (!result1 && RankTextBox.Text != "")
+            {
+                int resultNumber = int.Parse(RankTextBox.Text + InputNumber(e.Key).ToString());
+                if (resultNumber <= 0 || resultNumber > 90)
+                {
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == Key.D0 || e.Key == Key.NumPad0)
+            {
+                e.Handled = true;
+            }
+        }
 
+        private int InputNumber(Key key)
+        {
+            int[] inputValue = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            foreach (int value in inputValue)
+            {
+                if (key.ToString().EndsWith(value.ToString()))
+                {
+                    return value;
+                }
+            }
+            throw new Exception("输入越界!");
+        }
+
+        private void EliteTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (EliteTextBox.Text == "")
+            {
+                EliteTextBox.Text = "2";
+            }
+        }
+
+        private void RankTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (RankTextBox.Text == "")
+            {
+                RankTextBox.Text = "1";
+            }
         }
     }
 }

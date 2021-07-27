@@ -74,17 +74,28 @@ namespace StaffRandomSelect
             foreach(XElement item in staffList)
             {
                 IEnumerable<XElement> careerList = staffList.Elements("career");
-                foreach(XElement career in careerList)
+                foreach (XElement career in careerList)
                 {
                     IEnumerable<XElement> staffs = career.Elements("staff");
                     foreach(XElement each in staffs)
                     {
-                        Staff staff = new Staff();
-                        staff.Name = each.Element("name").Value;
-                        staff.Star = int.Parse(each.Element("star").Value);
-                        //staff.Career = career.Attribute("type");
-                        staff.Career = (Career)System.Enum.Parse(typeof(Career), career.Attribute("type").Value);
-                        staff.IsSelected = Convert.ToBoolean(int.Parse(each.Element("selected").Value));
+                        Staff staff = new Staff
+                        {
+                            Name = each.Element("name").Value,
+                            Star = int.Parse(each.Element("star").Value),
+                            //staff.Career = career.Attribute("type");
+                            Career = (Career)Enum.Parse(typeof(Career), career.Attribute("type").Value),
+                            IsSelected = Convert.ToBoolean(int.Parse(each.Element("selected").Value))
+                        };
+                        if (each.Descendants("level").Count() == 0)
+                        {
+                            staff.Level = Level.GenerateDefaultLevel();
+                        }
+                        else
+                        {
+                            string[] level = each.Element("level").Value.Split(";");
+                            staff.Level = new Level(int.Parse(level[0]), int.Parse(level[1]));
+                        }
                         staffLists.Add(staff);
                     }
                 }
@@ -112,7 +123,7 @@ namespace StaffRandomSelect
             xmlDocument.Save(path);
         }
 
-        private void AddStaff(XmlDocument file,XmlElement parentNode,Staff staff)
+        private void AddStaff(XmlDocument file, XmlElement parentNode, Staff staff)
         {
             /*<staff>
                 <name>风笛</name>
@@ -122,12 +133,15 @@ namespace StaffRandomSelect
             XmlElement staffElement = file.CreateElement("staff");
             XmlElement nameElement = file.CreateElement("name");
             XmlElement starElement = file.CreateElement("star");
+            XmlElement levelElement = file.CreateElement("level");
             XmlElement selectedElement = file.CreateElement("selected");
             nameElement.InnerText = staff.Name.ToString();
             starElement.InnerText = staff.Star.ToString();
+            levelElement.InnerText = staff.Level.EliteLevel + ";" + staff.Level.Rank;
             selectedElement.InnerText = Convert.ToInt32(staff.IsSelected).ToString();
             staffElement.AppendChild(nameElement);
             staffElement.AppendChild(starElement);
+            staffElement.AppendChild(levelElement);
             staffElement.AppendChild(selectedElement);
             parentNode.AppendChild(staffElement);
         }

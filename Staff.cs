@@ -11,23 +11,23 @@
 
         public Staff() { }
 
-        public Staff(string name, int star, Career career)
-        {
-            Name = name;
-            Star = star;
-            Career = career;
-            IsSelected = false;
-            Level = Level.generateDefaultLevel();
-        }
+        //public Staff(string name, int star, Career career)
+        //{
+        //    Name = name;
+        //    Star = star;
+        //    Career = career;
+        //    IsSelected = false;
+        //    Level = Level.GenerateDefaultLevel();
+        //}
 
-        public Staff(string name, int star, Career career, Level level)
-        {
-            Name = name;
-            Star = star;
-            Career = career;
-            IsSelected = false;
-            Level = level;
-        }
+        //public Staff(string name, int star, Career career, Level level)
+        //{
+        //    Name = name;
+        //    Star = star;
+        //    Career = career;
+        //    IsSelected = false;
+        //    Level = level;
+        //}
 
         public string Name { get => name; set => SetProperty(ref name, value); }
         public int Star { get => star; set => SetProperty(ref star, value); }
