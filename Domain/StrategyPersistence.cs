@@ -60,16 +60,81 @@ namespace StaffRandomSelect.Domain
                 Name = d.Name,
                 Rules = d.Rules.Select(r => new StrategyRuleDto
                 {
-                    Kind = r.Kind == StrategyRuleKind.Rarity ? "Rarity" : "Career",
+                    Kind = r.Kind switch
+                    {
+                        StrategyRuleKind.Rarity => "Rarity",
+                        StrategyRuleKind.CareerRange => "CareerRange",
+                        StrategyRuleKind.Career => "Career",
+                        StrategyRuleKind.StaffSubsetExact => "StaffSubsetExact",
+                        StrategyRuleKind.StaffSubsetRange => "StaffSubsetRange",
+                        _ => "Career"
+                    },
                     Star = r.Star,
-                    Career = r.Kind == StrategyRuleKind.Career ? r.Career.ToString() : null,
-                    Count = r.Count
+                    Career = (r.Kind == StrategyRuleKind.Career || r.Kind == StrategyRuleKind.CareerRange)
+                        ? r.Career.ToString()
+                        : null,
+                    Count = r.Count,
+                    CountMax = (r.Kind == StrategyRuleKind.CareerRange || r.Kind == StrategyRuleKind.StaffSubsetRange)
+                        ? r.CountMax
+                        : 0,
+                    StaffNames = (r.Kind == StrategyRuleKind.StaffSubsetExact || r.Kind == StrategyRuleKind.StaffSubsetRange)
+                        ? (r.StaffNames != null ? new List<string>(r.StaffNames) : null)
+                        : null
                 }).ToList()
             };
 
         private static StrategyRule FromDto(StrategyRuleDto r)
         {
-            if (r == null || r.Count <= 0)
+            if (r == null)
+                return null;
+
+            if (string.Equals(r.Kind, "CareerRange", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!Enum.TryParse(r.Career, out Career career))
+                    return null;
+                int lo = r.Count;
+                int hi = r.CountMax;
+                if (lo > hi || lo < 0)
+                    return null;
+                return new StrategyRule
+                {
+                    Kind = StrategyRuleKind.CareerRange,
+                    Career = career,
+                    Count = lo,
+                    CountMax = hi
+                };
+            }
+
+            if (string.Equals(r.Kind, "StaffSubsetExact", StringComparison.OrdinalIgnoreCase))
+            {
+                var names = NormalizeStaffNamesDto(r.StaffNames);
+                if (names.Count == 0 || r.Count < 0)
+                    return null;
+                return new StrategyRule
+                {
+                    Kind = StrategyRuleKind.StaffSubsetExact,
+                    StaffNames = names,
+                    Count = r.Count
+                };
+            }
+
+            if (string.Equals(r.Kind, "StaffSubsetRange", StringComparison.OrdinalIgnoreCase))
+            {
+                var names = NormalizeStaffNamesDto(r.StaffNames);
+                int lo = r.Count;
+                int hi = r.CountMax;
+                if (names.Count == 0 || lo > hi || lo < 0)
+                    return null;
+                return new StrategyRule
+                {
+                    Kind = StrategyRuleKind.StaffSubsetRange,
+                    StaffNames = names,
+                    Count = lo,
+                    CountMax = hi
+                };
+            }
+
+            if (r.Count <= 0)
                 return null;
 
             if (string.Equals(r.Kind, "Rarity", StringComparison.OrdinalIgnoreCase))
@@ -87,6 +152,23 @@ namespace StaffRandomSelect.Domain
             }
 
             return null;
+        }
+
+        private static List<string> NormalizeStaffNamesDto(List<string> raw)
+        {
+            var list = new List<string>();
+            if (raw == null)
+                return list;
+            foreach (var n in raw)
+            {
+                if (string.IsNullOrWhiteSpace(n))
+                    continue;
+                var t = n.Trim();
+                if (!list.Contains(t))
+                    list.Add(t);
+            }
+
+            return list;
         }
     }
 }

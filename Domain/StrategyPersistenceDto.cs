@@ -15,5 +15,7 @@ namespace StaffRandomSelect.Domain
         public int Star { get; set; }
         public string Career { get; set; }
         public int Count { get; set; }
+        public int CountMax { get; set; }
+        public List<string> StaffNames { get; set; }
     }
 }

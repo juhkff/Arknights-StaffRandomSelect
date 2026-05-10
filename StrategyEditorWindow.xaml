@@ -6,7 +6,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="编辑随机策略"
-    Width="520"
+    Width="620"
     SizeToContent="Height"
     WindowStartupLocation="CenterOwner"
     Background="{DynamicResource MaterialDesignPaper}"
@@ -16,6 +16,79 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
 
+    <Window.Resources>
+        <!--  与「添加」等按钮同高，避免 Outlined 文本框模板撑高行  -->
+        <sys:Double x:Key="StrategyInlineRowHeight" xmlns:sys="clr-namespace:System;assembly=mscorlib">32</sys:Double>
+
+        <!--  分区标题：策略名称 / 策略条目  -->
+        <Style x:Key="EditorFormSectionTitle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            <Setter Property="FontSize" Value="13.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <!--  策略选择下的子分组标题  -->
+        <Style x:Key="EditorRuleGroupTitle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            <Setter Property="Opacity" Value="0.92" />
+        </Style>
+
+        <Style x:Key="EditorRulesListBoxItem" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border
+                            x:Name="ItemBd"
+                            Padding="{TemplateBinding Padding}"
+                            Background="Transparent"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBd" Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="InlineNumberTextBox"
+            BasedOn="{StaticResource MaterialDesignTextBox}"
+            TargetType="{x:Type TextBox}">
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Height" Value="{StaticResource StrategyInlineRowHeight}" />
+            <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
+            <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="8,0,8,0" />
+            <!--  关闭输入法，避免中文等通过 IME 写入  -->
+            <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+        </Style>
+
+        <Style
+            x:Key="InlineRaisedButton"
+            BasedOn="{StaticResource MaterialDesignRaisedButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="{StaticResource StrategyInlineRowHeight}" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,14 +97,11 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
             Grid.Row="0"
-            Margin="0,0,0,8"
-            FontFamily="Microsoft YaHei"
-            FontWeight="Bold"
+            Style="{StaticResource EditorFormSectionTitle}"
             Text="策略名称" />
         <TextBox
             x:Name="NameBox"
@@ -41,57 +111,127 @@
             FontFamily="Microsoft YaHei"
             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
 
-        <TextBlock
-            Grid.Row="2"
-            Margin="0,0,0,8"
-            FontFamily="Microsoft YaHei"
-            FontWeight="Bold"
-            Text="策略条目" />
-        <ListBox
-            x:Name="RulesList"
-            Grid.Row="3"
-            MinHeight="120"
-            MaxHeight="220"
-            Margin="0,0,0,16"
-            BorderBrush="{DynamicResource MaterialDesignDivider}"
-            BorderThickness="1"
-            FontFamily="Microsoft YaHei">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            FontFamily="Microsoft YaHei"
-                            Text="{Binding SummaryLine}" />
-                        <Button
-                            Grid.Column="1"
-                            Margin="8,0,0,0"
-                            Click="RemoveRule_Click"
-                            Content="移除"
-                            Cursor="Hand"
-                            FontFamily="Microsoft YaHei"
-                            Style="{StaticResource MaterialDesignFlatButton}"
-                            Tag="{Binding}" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <StackPanel
-            Grid.Row="4"
-            Margin="0,0,0,8"
-            Orientation="Vertical">
+        <Grid Grid.Row="2" Margin="0,0,0,8">
             <TextBlock
-                Margin="0,0,0,4"
+                VerticalAlignment="Center"
+                Style="{StaticResource EditorFormSectionTitle}"
+                Text="策略条目"
+                Margin="0,0,0,0" />
+            <Button
+                x:Name="CancelRuleEditButton"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Click="CancelRuleEdit_Click"
+                Content="取消编辑"
+                Cursor="Hand"
                 FontFamily="Microsoft YaHei"
-                FontWeight="Bold"
-                Text="添加：固定总体稀有度数量" />
-            <StackPanel Orientation="Horizontal">
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Visibility="Collapsed" />
+        </Grid>
+        <StackPanel Grid.Row="3" Margin="0,0,0,16">
+            <ListBox
+                x:Name="RulesList"
+                MinHeight="120"
+                MaxHeight="220"
+                Margin="0,0,0,6"
+                Padding="4,6"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                Background="{DynamicResource MaterialDesignPaper}"
+                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                BorderThickness="1"
+                FontFamily="Microsoft YaHei"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ItemContainerStyle="{StaticResource EditorRulesListBoxItem}"
+                SelectionChanged="RulesList_SelectionChanged"
+                SelectionMode="Single">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="0,0,0,6"
+                            Padding="10,8"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                            Background="{DynamicResource MaterialDesignCardBackground}"
+                            BorderBrush="{DynamicResource MaterialDesignDivider}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True"
+                            ToolTip="点击以载入下方表单编辑">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                                    Grid.Column="0"
+                                    Width="3"
+                                    Margin="0,1,12,1"
+                                    VerticalAlignment="Stretch"
+                                    Background="{DynamicResource PrimaryHueMidBrush}"
+                                    CornerRadius="1.5"
+                                    Opacity="0.85" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Microsoft YaHei"
+                                    FontSize="13"
+                                    LineHeight="20"
+                                    Foreground="{DynamicResource MaterialDesignBody}"
+                                    Text="{Binding SummaryLine}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap" />
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Click="RemoveRule_Click"
+                                    Content="移除"
+                                    Cursor="Hand"
+                                    FontFamily="Microsoft YaHei"
+                                    Foreground="{DynamicResource MaterialDesignBody}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Tag="{Binding}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock
+                FontFamily="Microsoft YaHei"
+                FontSize="12"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                Opacity="0.65"
+                Text="点击条目载入到下方对应区域修改，完成后点「保存」；点「取消编辑」或取消选中可退出编辑。"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Margin="0,0,0,16">
+            <Rectangle
+                Height="1"
+                Margin="0,4,0,4"
+                HorizontalAlignment="Stretch"
+                Fill="{DynamicResource MaterialDesignDivider}" />
+            <StackPanel Margin="0,8,0,14" Orientation="Horizontal">
+                <Border
+                    Width="4"
+                    Margin="0,3,0,3"
+                    VerticalAlignment="Stretch"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    CornerRadius="2" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                    Foreground="{DynamicResource PrimaryHueMidBrush}"
+                    Text="策略选择" />
+            </StackPanel>
+
+            <TextBlock
+                Margin="0,0,0,6"
+                Style="{StaticResource EditorRuleGroupTitle}"
+                Text="固定特定稀有度总量" />
+            <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
                 <TextBlock
                     Margin="0,0,8,0"
                     VerticalAlignment="Center"
@@ -100,7 +240,9 @@
                 <ComboBox
                     x:Name="StarCombo"
                     Width="100"
+                    Height="{StaticResource StrategyInlineRowHeight}"
                     VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
                     FontFamily="Microsoft YaHei" />
                 <TextBox
                     x:Name="RarityCountBox"
@@ -109,59 +251,195 @@
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="数量"
                     FontFamily="Microsoft YaHei"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                    Style="{StaticResource InlineNumberTextBox}" />
                 <Button
+                    x:Name="RarityRuleSubmitButton"
                     Margin="8,0,0,0"
                     VerticalAlignment="Center"
                     Click="AddRarityRule_Click"
                     Content="添加"
                     Cursor="Hand"
                     FontFamily="Microsoft YaHei"
-                    Style="{StaticResource MaterialDesignRaisedButton}" />
+                    Style="{StaticResource InlineRaisedButton}" />
             </StackPanel>
-        </StackPanel>
 
-        <StackPanel
-            Grid.Row="5"
-            Margin="0,0,0,16"
-            Orientation="Vertical">
             <TextBlock
-                Margin="0,0,0,4"
-                FontFamily="Microsoft YaHei"
-                FontWeight="Bold"
-                Text="添加：固定特定职业数量" />
-            <StackPanel Orientation="Horizontal">
+                Margin="0,14,0,6"
+                Style="{StaticResource EditorRuleGroupTitle}"
+                Text="固定特定职业数量" />
+            <WrapPanel Orientation="Horizontal">
                 <TextBlock
-                    Margin="0,0,8,0"
+                    Margin="0,0,8,8"
                     VerticalAlignment="Center"
                     FontFamily="Microsoft YaHei"
                     Text="职业：" />
                 <ComboBox
                     x:Name="CareerCombo"
                     Width="120"
+                    Height="{StaticResource StrategyInlineRowHeight}"
+                    Margin="0,0,16,8"
                     VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
                     FontFamily="Microsoft YaHei" />
+                <TextBlock
+                    Margin="0,0,8,8"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Text="方式：" />
+                <ComboBox
+                    x:Name="CareerConstraintModeCombo"
+                    Width="100"
+                    Height="{StaticResource StrategyInlineRowHeight}"
+                    Margin="0,0,8,8"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    SelectedIndex="0">
+                    <ComboBoxItem Content="特定值" />
+                    <ComboBoxItem Content="范围" />
+                </ComboBox>
                 <TextBox
                     x:Name="CareerCountBox"
                     Width="72"
-                    Margin="8,0,0,0"
+                    Margin="0,0,8,8"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="数量"
                     FontFamily="Microsoft YaHei"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                <Button
-                    Margin="8,0,0,0"
+                    Style="{StaticResource InlineNumberTextBox}" />
+                <TextBox
+                    x:Name="CareerRangeMinBox"
+                    Width="72"
+                    Margin="0,0,8,8"
                     VerticalAlignment="Center"
-                    Click="AddCareerRule_Click"
+                    materialDesign:HintAssist.Hint="最小"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource InlineNumberTextBox}"
+                    Visibility="Collapsed" />
+                <TextBox
+                    x:Name="CareerRangeMaxBox"
+                    Width="72"
+                    Margin="0,0,8,8"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="最大"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource InlineNumberTextBox}"
+                    Visibility="Collapsed" />
+                <Button
+                    x:Name="CareerRuleSubmitButton"
+                    Margin="0,0,0,8"
+                    VerticalAlignment="Center"
+                    Click="AddCareerConstraint_Click"
                     Content="添加"
                     Cursor="Hand"
                     FontFamily="Microsoft YaHei"
-                    Style="{StaticResource MaterialDesignRaisedButton}" />
-            </StackPanel>
+                    Style="{StaticResource InlineRaisedButton}" />
+            </WrapPanel>
+
+            <TextBlock
+                Margin="0,14,0,6"
+                Style="{StaticResource EditorRuleGroupTitle}"
+                Text="限制特定干员人数" />
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,2,8"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Text="从" />
+                <WrapPanel
+                    x:Name="StaffSubsetTagsPanel"
+                    MaxWidth="360"
+                    Margin="0,0,2,8" />
+                <Button
+                    x:Name="StaffSubsetAddButton"
+                    MinWidth="36"
+                    Height="{StaticResource StrategyInlineRowHeight}"
+                    Margin="0,0,8,8"
+                    Padding="4,0"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Click="StaffSubsetAddButton_Click"
+                    Cursor="Hand"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    ToolTip="添加干员">
+                    <TextBlock
+                        FontFamily="Segoe UI Symbol"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="+"
+                        TextAlignment="Center" />
+                </Button>
+                <TextBlock
+                    Margin="0,0,4,8"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Text="列表内选择（" />
+                <ComboBox
+                    x:Name="StaffSubsetModeCombo"
+                    Width="88"
+                    Height="{StaticResource StrategyInlineRowHeight}"
+                    Margin="0,0,8,8"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    SelectedIndex="0">
+                    <ComboBoxItem Content="固定值" />
+                    <ComboBoxItem Content="范围" />
+                </ComboBox>
+                <TextBox
+                    x:Name="StaffSubsetExactCountBox"
+                    Width="56"
+                    Margin="0,0,4,8"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="n"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource InlineNumberTextBox}" />
+                <StackPanel
+                    x:Name="StaffSubsetRangeInputPanel"
+                    Margin="0,0,4,8"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+                    <TextBox
+                        x:Name="StaffSubsetRangeMinBox"
+                        Width="56"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="n"
+                        FontFamily="Microsoft YaHei"
+                        Style="{StaticResource InlineNumberTextBox}" />
+                    <TextBlock
+                        Margin="6,0"
+                        VerticalAlignment="Center"
+                        FontFamily="Microsoft YaHei"
+                        Text="-" />
+                    <TextBox
+                        x:Name="StaffSubsetRangeMaxBox"
+                        Width="56"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="m"
+                        FontFamily="Microsoft YaHei"
+                        Style="{StaticResource InlineNumberTextBox}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="0,0,8,8"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Text="）个" />
+                <Button
+                    x:Name="StaffSubsetRuleSubmitButton"
+                    Margin="0,0,0,8"
+                    VerticalAlignment="Center"
+                    Click="AddStaffSubsetRule_Click"
+                    Content="添加"
+                    Cursor="Hand"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource InlineRaisedButton}" />
+            </WrapPanel>
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="5"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button

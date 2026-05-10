@@ -86,14 +86,24 @@ namespace StaffRandomSelect
                 return;
             }
 
-            ConstrainedTeamPicker.MergeRules(strategy, out var rarityReq, out var careerReq);
-            if (rarityReq.Count == 0 && careerReq.Count == 0)
+            ConstrainedTeamPicker.MergeRules(strategy, out var rarityReq, out var careerExact, out var careerRange, out var staffSubsets);
+            if (rarityReq.Count == 0 && careerExact.Count == 0 && careerRange.Count == 0 && staffSubsets.Count == 0)
             {
                 PickUniformNoReplace(pool, resultNum, random);
                 return;
             }
 
-            if (rarityReq.Values.Sum() > resultNum || careerReq.Values.Sum() > resultNum)
+            if (careerRange.Values.Any(x => x.lo > x.hi))
+            {
+                MessageBox.Show(
+                    "策略中存在互相冲突的职业数量范围条目（交集为空），请修改后重试。",
+                    "无法满足策略",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            if (rarityReq.Values.Sum() > resultNum || careerExact.Values.Sum() > resultNum)
             {
                 MessageBox.Show(
                     "策略中要求的稀有度人数或职业人数总和超过了当前「随机数量」，请调整策略或数量。",
@@ -103,7 +113,77 @@ namespace StaffRandomSelect
                 return;
             }
 
-            if (!ConstrainedTeamPicker.TryPick(pool, resultNum, rarityReq, careerReq, random, out var team))
+            int minCareer = 0;
+            foreach (Career career in Enum.GetValues(typeof(Career)))
+            {
+                if (careerExact.TryGetValue(career, out int ex))
+                    minCareer += ex;
+                else if (careerRange.TryGetValue(career, out var rg))
+                    minCareer += rg.lo;
+            }
+
+            if (minCareer > resultNum)
+            {
+                MessageBox.Show(
+                    "策略中各职业数量（及范围下限）之和超过了当前「随机数量」，请调整策略或数量。",
+                    "无法满足策略",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            foreach (var c in staffSubsets)
+            {
+                int inPool = pool.Count(s => c.Names.Contains(s.Name));
+                int outPool = pool.Count(s => !c.Names.Contains(s.Name));
+                if (c.IsExact)
+                {
+                    int n = c.ExactOrLo;
+                    if (n > resultNum)
+                    {
+                        MessageBox.Show(
+                            "「限制特定干员人数」的固定值超过了当前「随机数量」。",
+                            "无法满足策略",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    if (n > inPool)
+                    {
+                        MessageBox.Show(
+                            "「限制特定干员人数」：在已选干员池中，指定干员不足以满足固定人数，请调整勾选或策略。",
+                            "无法满足策略",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    if (n == 0 && outPool < resultNum)
+                    {
+                        MessageBox.Show(
+                            "「限制特定干员人数」为 0 时，需要足够多的「非指定」已选干员填满阵容，请调整勾选或策略。",
+                            "无法满足策略",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+                    if (c.ExactOrLo > inPool || c.Hi > resultNum || c.ExactOrLo > resultNum)
+                    {
+                        MessageBox.Show(
+                            "「限制特定干员人数」的范围与当前已选干员池或随机数量不兼容，请调整。",
+                            "无法满足策略",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+            }
+
+            if (!ConstrainedTeamPicker.TryPick(pool, resultNum, rarityReq, careerExact, careerRange, staffSubsets, random, out var team))
             {
                 MessageBox.Show(
                     "在当前已选干员池下无法凑出满足该策略的阵容，请增加/调整勾选干员或修改策略条目。",
