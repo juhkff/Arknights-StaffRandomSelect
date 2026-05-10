@@ -88,6 +88,18 @@
                     FontFamily="Microsoft YaHei"
                     FontWeight="Bold"
                     Style="{DynamicResource MaterialDesignFlatButton}" />
+                <Button
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    Click="Change_To_RandomStrategy"
+                    Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                    CommandParameter="{x:Static Dock.Left}"
+                    Content="随机策略"
+                    Cursor="Hand"
+                    DockPanel.Dock="Top"
+                    FontFamily="Microsoft YaHei"
+                    FontWeight="Bold"
+                    Style="{DynamicResource MaterialDesignFlatButton}" />
             </DockPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>
 

@@ -1,0 +1,184 @@
+<Window
+    x:Class="StaffRandomSelect.StrategyEditorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="编辑随机策略"
+    Width="520"
+    SizeToContent="Height"
+    WindowStartupLocation="CenterOwner"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{materialDesign:MaterialDesignFont}"
+    TextElement.FontSize="14"
+    TextElement.FontWeight="Medium"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    mc:Ignorable="d">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,8"
+            FontFamily="Microsoft YaHei"
+            FontWeight="Bold"
+            Text="策略名称" />
+        <TextBox
+            x:Name="NameBox"
+            Grid.Row="1"
+            Margin="0,0,0,16"
+            materialDesign:HintAssist.Hint="请输入策略名称"
+            FontFamily="Microsoft YaHei"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Margin="0,0,0,8"
+            FontFamily="Microsoft YaHei"
+            FontWeight="Bold"
+            Text="策略条目" />
+        <ListBox
+            x:Name="RulesList"
+            Grid.Row="3"
+            MinHeight="120"
+            MaxHeight="220"
+            Margin="0,0,0,16"
+            BorderBrush="{DynamicResource MaterialDesignDivider}"
+            BorderThickness="1"
+            FontFamily="Microsoft YaHei">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontFamily="Microsoft YaHei"
+                            Text="{Binding SummaryLine}" />
+                        <Button
+                            Grid.Column="1"
+                            Margin="8,0,0,0"
+                            Click="RemoveRule_Click"
+                            Content="移除"
+                            Cursor="Hand"
+                            FontFamily="Microsoft YaHei"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Tag="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel
+            Grid.Row="4"
+            Margin="0,0,0,8"
+            Orientation="Vertical">
+            <TextBlock
+                Margin="0,0,0,4"
+                FontFamily="Microsoft YaHei"
+                FontWeight="Bold"
+                Text="添加：固定总体稀有度数量" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Text="稀有度：" />
+                <ComboBox
+                    x:Name="StarCombo"
+                    Width="100"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei" />
+                <TextBox
+                    x:Name="RarityCountBox"
+                    Width="72"
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="数量"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                <Button
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="AddRarityRule_Click"
+                    Content="添加"
+                    Cursor="Hand"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource MaterialDesignRaisedButton}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="5"
+            Margin="0,0,0,16"
+            Orientation="Vertical">
+            <TextBlock
+                Margin="0,0,0,4"
+                FontFamily="Microsoft YaHei"
+                FontWeight="Bold"
+                Text="添加：固定特定职业数量" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei"
+                    Text="职业：" />
+                <ComboBox
+                    x:Name="CareerCombo"
+                    Width="120"
+                    VerticalAlignment="Center"
+                    FontFamily="Microsoft YaHei" />
+                <TextBox
+                    x:Name="CareerCountBox"
+                    Width="72"
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="数量"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                <Button
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="AddCareerRule_Click"
+                    Content="添加"
+                    Cursor="Hand"
+                    FontFamily="Microsoft YaHei"
+                    Style="{StaticResource MaterialDesignRaisedButton}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="6"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="0,0,8,0"
+                Click="Cancel_Click"
+                Content="取消"
+                Cursor="Hand"
+                FontFamily="Microsoft YaHei"
+                IsCancel="True"
+                Style="{StaticResource MaterialDesignFlatButton}" />
+            <Button
+                Click="Ok_Click"
+                Content="确定"
+                Cursor="Hand"
+                FontFamily="Microsoft YaHei"
+                IsDefault="True"
+                Style="{StaticResource MaterialDesignRaisedButton}" />
+        </StackPanel>
+    </Grid>
+</Window>

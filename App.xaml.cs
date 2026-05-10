@@ -1,4 +1,5 @@
 ﻿using StaffRandomSelect;
+using StaffRandomSelect.Domain;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,15 +22,22 @@ namespace StaffRandomSelect
     {
         public static ObservableCollection<Staff> staffLists;
 
+        public static ObservableCollection<RandomStrategyDefinition> RandomStrategyDefinitions { get; }
+            = new ObservableCollection<RandomStrategyDefinition>();
+
         private static string projectPath = Environment.CurrentDirectory.ToString();
         private static string fileName = "StaffList.xml";
+        private static string strategyFileName = "RandomStrategies.json";
         private static string path;
+        private static string strategyPath;
 
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            strategyPath = System.IO.Path.Combine(projectPath, strategyFileName);
             LoadList();
+            StrategyPersistence.Load(strategyPath, RandomStrategyDefinitions);
         }
 
         //打开程序时加载文件数据
@@ -54,6 +62,8 @@ namespace StaffRandomSelect
         protected override void OnExit(ExitEventArgs e)
         {
             //退出时写入文件
+            if (!string.IsNullOrEmpty(strategyPath))
+                StrategyPersistence.Save(strategyPath, RandomStrategyDefinitions);
             ListWrite();
             base.OnExit(e);
         }

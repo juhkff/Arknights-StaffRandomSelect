@@ -24,11 +24,13 @@ namespace StuffRandomSelect
         private Generate generate;
         private Input input;
         private StaffRandomSelect.List list;
+        private StaffRandomSelect.RandomStrategy randomStrategy;
         public MainWindow()
         {
             generate = new Generate();
             input = new Input();
             list = new StaffRandomSelect.List();
+            randomStrategy = new StaffRandomSelect.RandomStrategy();
             InitializeComponent();
             ContentControl.Content = generate;
         }
@@ -52,6 +54,12 @@ namespace StuffRandomSelect
             //Frame.Navigate(new Uri("/List.xaml", UriKind.Relative));
             ContentControl.Content = list;
             WindowTitle.Text = "干员列表";
+        }
+
+        private void Change_To_RandomStrategy(object sender, RoutedEventArgs e)
+        {
+            ContentControl.Content = randomStrategy;
+            WindowTitle.Text = "随机策略";
         }
     }
 }
