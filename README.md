@@ -1,5 +1,13 @@
 # Arknights-StaffRandomSelect
 
+> **本仓库已停止维护。**
+>
+> 后续开发已迁移到跨平台版本 [arknights-random-team](https://github.com/juhkff/arknights-random-team)（Avalonia，支持 Windows / macOS / Linux）。问题反馈、功能更新与贡献请前往新仓库。
+>
+> 干员数据 `StaffList.xml` 与策略文件 `RandomStrategies.json` 格式兼容，把这两个文件拷到新程序目录即可继续使用。
+>
+> 本仓库仅保留早期 WPF 学习版本，不再接受功能更新或缺陷修复。
+
 # 明日方舟阵容随机生成器
 逐渐变成老玩家后，面对游戏难度毫无压力，就逐渐有些抵触一成不变地使用强力干员，而培养的四五星干员上不了场的现象。可手动选择低星干员又感觉过于愚蠢且没有一个合适的选择标准————于是就会产生用随机阵容打的想法，将难度交付于老天爷，自己则努力克服由此产生的难度。于是就写了这个应用。<br>
 *————其实主要还是能正好学一学C#*
